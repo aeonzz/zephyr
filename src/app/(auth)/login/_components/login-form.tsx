@@ -18,18 +18,13 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema, loginSchema } from "@/lib/schema/auth";
-import { sendVerificationEmail, signIn } from "@/lib/auth/client";
+import { signIn } from "@/lib/auth/client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { PasswordInput } from "@/components/password-input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { AlignVerticalDistributeCenterIcon, Loader2 } from "lucide-react";
-import {
-  Alert,
-  AlertAction,
-  AlertDescription,
-  AlertTitle,
-} from "@/components/alert";
+import { Loader2 } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/alert";
 
 export function LoginForm({
   className,

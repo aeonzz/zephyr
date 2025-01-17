@@ -15,6 +15,7 @@ export function PasswordInput({ ...props }: React.ComponentProps<"input">) {
       <Input
         id={id}
         className="pe-9"
+        placeholder="*********"
         type={isVisible ? "text" : "password"}
         {...props}
       />

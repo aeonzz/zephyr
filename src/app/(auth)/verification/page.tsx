@@ -1,16 +1,9 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 import React from "react";
 
-export default function Verification({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+export default function Verification() {
   return (
-    <div
-      className={cn("flex w-full max-w-xs flex-col gap-6", className)}
-      {...props}
-    >
+    <div className="flex w-full max-w-xs flex-col gap-6">
       <Card className="overflow-hidden border-none shadow-none md:shadow">
         <CardContent className="p-0 px-1">
           <div className="flex flex-col gap-3">

@@ -1,11 +1,12 @@
-import HomeNavbar from "./_components/home-navbar";
+import AppShell from "@/components/layouts/app-shell";
 import HomeHero from "./_components/home-hero";
 
 export default function Home() {
   return (
     <div className="relative">
-      <HomeNavbar />
-      <HomeHero />
+      <AppShell>
+        <HomeHero />
+      </AppShell>
     </div>
   );
 }

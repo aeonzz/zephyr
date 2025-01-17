@@ -20,7 +20,7 @@ import { ResetPasswordSchema, resetPasswordSchema } from "@/lib/schema/auth";
 import { resetPassword } from "@/lib/auth/client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { Loader, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 export function ResetPasswordForm({
   className,

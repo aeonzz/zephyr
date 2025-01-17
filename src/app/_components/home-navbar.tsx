@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,139 +10,133 @@ import {
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { Hotel, Utensils, Car, Plane, Map, Phone } from "lucide-react";
+import { ShoppingBag, Shirt, Tag, Truck, Star, Phone } from "lucide-react";
 import { LoginFallback, LoginWrapper } from "@/components/login-wrapper";
+import { ThemeToggle } from "@/components/theme-toggle";
 
-const hotelServices: {
-  title: string;
-  href: string;
-  description: string;
-  icon: React.ReactNode;
-}[] = [
+const hoodieCollections = [
   {
-    title: "Room Types",
-    href: "/rooms",
+    title: "New Arrivals",
+    href: "/new-arrivals",
     description:
-      "Explore our variety of room types, from cozy singles to luxurious suites.",
-    icon: <Hotel className="h-4 w-4" />,
+      "Check out the latest and trendiest hoodies in our collection.",
+    icon: <ShoppingBag className="h-4 w-4" />,
   },
   {
-    title: "Dining",
-    href: "/dining",
-    description:
-      "Discover our restaurants and bars offering exquisite culinary experiences.",
-    icon: <Utensils className="h-4 w-4" />,
+    title: "Classic Hoodies",
+    href: "/classic",
+    description: "Browse our timeless classic hoodie designs.",
+    icon: <Shirt className="h-4 w-4" />,
   },
   {
-    title: "Transportation",
-    href: "/transportation",
-    description:
-      "Learn about our airport shuttle service and car rental options.",
-    icon: <Car className="h-4 w-4" />,
+    title: "Discounts",
+    href: "/discounts",
+    description: "Grab amazing deals on select hoodies.",
+    icon: <Tag className="h-4 w-4" />,
   },
   {
-    title: "Attractions",
-    href: "/attractions",
-    description:
-      "Find out about nearby attractions and activities for your stay.",
-    icon: <Map className="h-4 w-4" />,
+    title: "Shipping Info",
+    href: "/shipping",
+    description: "Learn about our shipping policies and delivery options.",
+    icon: <Truck className="h-4 w-4" />,
   },
   {
-    title: "Flights",
-    href: "/flights",
-    description:
-      "Book your flights along with your hotel stay for a seamless travel experience.",
-    icon: <Plane className="h-4 w-4" />,
+    title: "Best Sellers",
+    href: "/best-sellers",
+    description: "Discover the most popular hoodies loved by our customers.",
+    icon: <Star className="h-4 w-4" />,
   },
   {
-    title: "Contact",
+    title: "Contact Us",
     href: "/contact",
-    description:
-      "Get in touch with our customer service for any queries or special requests.",
+    description: "Reach out to our support team for any questions.",
     icon: <Phone className="h-4 w-4" />,
   },
 ];
 
 export default function HomeNavbar() {
   return (
-    <nav className="container sticky top-0 z-50 flex items-center justify-between bg-white py-3">
-      <div className="flex items-center gap-6">
-        <Link href="/">
-          <div className="flex items-center gap-2">
-            <Hotel className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold text-primary">LuxeStay</span>
-          </div>
-        </Link>
-        <NavigationMenu>
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>Our Hotel</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                  <li className="row-span-3">
-                    <NavigationMenuLink asChild>
-                      <a
-                        className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                        href="/about"
-                      >
-                        <Hotel className="h-6 w-6 text-primary" />
-                        <div className="mb-2 mt-4 text-lg font-medium">
-                          LuxeStay Hotel
-                        </div>
-                        <p className="text-sm leading-tight text-muted-foreground">
-                          Experience luxury and comfort in the heart of the
-                          city. Our hotel offers top-notch amenities and
-                          exceptional service for an unforgettable stay.
-                        </p>
-                      </a>
-                    </NavigationMenuLink>
-                  </li>
-                  <ListItem href="/amenities" title="Amenities">
-                    Discover our world-class facilities and services.
-                  </ListItem>
-                  <ListItem href="/gallery" title="Gallery">
-                    Take a visual tour of our stunning hotel and rooms.
-                  </ListItem>
-                  <ListItem href="/reviews" title="Guest Reviews">
-                    Read what our guests have to say about their stay.
-                  </ListItem>
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>Services</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                  {hotelServices.map((service) => (
-                    <ListItem
-                      key={service.title}
-                      title={service.title}
-                      href={service.href}
-                      icon={service.icon}
-                    >
-                      {service.description}
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 py-3 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <nav className="container flex items-center justify-between">
+        <div className="flex items-center gap-6">
+          <Link href="/">
+            <div className="flex items-center gap-2">
+              <ShoppingBag className="h-6 w-6 text-primary" />
+              <span className="text-xl font-bold text-primary">
+                Hoodie Haven
+              </span>
+            </div>
+          </Link>
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>Shop Hoodies</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                    <li className="row-span-3">
+                      <NavigationMenuLink asChild>
+                        <a
+                          className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                          href="/about"
+                        >
+                          <ShoppingBag className="h-6 w-6 text-primary" />
+                          <div className="mb-2 mt-4 text-lg font-medium">
+                            Hoodie Haven
+                          </div>
+                          <p className="text-sm leading-tight text-muted-foreground">
+                            Explore the finest collection of hoodies for every
+                            style and season.
+                          </p>
+                        </a>
+                      </NavigationMenuLink>
+                    </li>
+                    <ListItem href="/about-us" title="About Us">
+                      Learn more about our passion for stylish hoodies.
                     </ListItem>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/special-offers" legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Special Offers
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
-      </div>
-      <div className="flex items-center gap-2">
-        <Button variant="outline">Book Now</Button>
-        <React.Suspense fallback={<LoginFallback />}>
-          <LoginWrapper />
-        </React.Suspense>
-      </div>
-    </nav>
+                    <ListItem href="/gallery" title="Gallery">
+                      Take a peek at our exclusive hoodie designs.
+                    </ListItem>
+                    <ListItem href="/reviews" title="Customer Reviews">
+                      See what our customers have to say about our hoodies.
+                    </ListItem>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>Collections</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                    {hoodieCollections.map((collection) => (
+                      <ListItem
+                        key={collection.title}
+                        title={collection.title}
+                        href={collection.href}
+                        icon={collection.icon}
+                      >
+                        {collection.description}
+                      </ListItem>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link href="/special-offers" legacyBehavior passHref>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    Special Offers
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
+        </div>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <React.Suspense fallback={<LoginFallback />}>
+            <LoginWrapper />
+          </React.Suspense>
+        </div>
+      </nav>
+    </header>
   );
 }
 

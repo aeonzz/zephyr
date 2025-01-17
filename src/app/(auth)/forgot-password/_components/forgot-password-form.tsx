@@ -19,7 +19,7 @@ import { forgotPasswordSchema, ForgotPasswordSchema } from "@/lib/schema/auth";
 import { forgetPassword } from "@/lib/auth/client";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
-import { Loader, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 export function ForgotPasswordForm({
   className,

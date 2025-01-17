@@ -56,7 +56,6 @@ export function SignupForm({
             toast.error(ctx.error.message);
           },
           onSuccess: () => {
-            toast.success("Signup success");
             router.push("/verification");
           },
         },

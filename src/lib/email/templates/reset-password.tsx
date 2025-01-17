@@ -92,12 +92,11 @@ const buttonContainer = {
 };
 
 const button = {
-  backgroundColor: "#0070f3",
+  backgroundColor: "#09090b",
   color: "#ffffff",
   fontSize: "16px",
   fontWeight: "bold",
   padding: "12px 24px",
-  borderRadius: "5px",
   textDecoration: "none",
 };
 

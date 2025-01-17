@@ -4,16 +4,18 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 import React from "react";
-import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
-import { LoaderCircle, LogOut, User } from "lucide-react";
+import { Cog, Loader2, LogOut, User } from "lucide-react";
 import { signOut } from "@/lib/auth/client";
 import type { Session } from "@/lib/auth/auth-type";
+import { toast } from "sonner";
 
 interface UserNavProps {
   session: Session;
@@ -25,18 +27,28 @@ export default function UserNav({ session }: UserNavProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
-          <Avatar className="size-6 rounded-md">
-            <AvatarImage src={session.user.image ?? ""} />
-            <AvatarFallback>{session.user.name?.charAt(0)}</AvatarFallback>
-          </Avatar>
-        </Button>
+        <Avatar className="size-9 cursor-pointer">
+          <AvatarImage src={session.user.image ?? ""} />
+          <AvatarFallback>{session.user.name?.charAt(0)}</AvatarFallback>
+        </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent align="end" className="min-w-[200px]">
+        <DropdownMenuLabel className="flex flex-col">
+          {session.user.name}
+          <span className="text-xs text-muted-foreground">
+            {session.user.email}
+          </span>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
         <DropdownMenuItem>
           <User />
           Profile
         </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Cog />
+          Settings
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
         <DropdownMenuItem
           onSelect={async (e) => {
             e.preventDefault();
@@ -45,17 +57,17 @@ export default function UserNav({ session }: UserNavProps) {
               fetchOptions: {
                 onSuccess() {
                   router.refresh();
-                  setIsSignOut(false);
                 },
-                onError() {
+                onError(ctx) {
                   setIsSignOut(false);
+                  toast.error(ctx.error.message);
                 },
               },
             });
           }}
           disabled={isSignOut}
         >
-          {isSignOut ? <LoaderCircle /> : <LogOut />}
+          {isSignOut ? <Loader2 className="animate-spin" /> : <LogOut />}
           Logout
         </DropdownMenuItem>
       </DropdownMenuContent>

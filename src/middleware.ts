@@ -8,18 +8,26 @@ export default async function authMiddleware(request: NextRequest) {
     {
       baseURL: request.nextUrl.origin,
       headers: {
-        //get the cookie from the request
         cookie: request.headers.get("cookie") || "",
       },
     }
   );
 
-  if (!session) {
-    return NextResponse.redirect(new URL("/login", request.url));
+  const protectedRoutes = [
+    "/login",
+    "/signup",
+    "/forgot-password",
+    "/reset-password",
+    "/verification",
+  ];
+
+  if (session && protectedRoutes.includes(request.nextUrl.pathname)) {
+    return NextResponse.redirect(new URL("/", request.url));
   }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/"],
+  matcher: ["/", "/login"],
 };
