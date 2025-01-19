@@ -15,6 +15,13 @@
       "when": 1736853119618,
       "tag": "0001_simple_mystique",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1737266873440,
+      "tag": "0002_robust_human_torch",
+      "breakpoints": true
     }
   ]
 }

@@ -1,6 +1,7 @@
 import {
   pgTable,
   text,
+  integer,
   timestamp,
   boolean,
 } from "drizzle-orm/pg-core";
@@ -13,6 +14,10 @@ export const user = pgTable("user", {
   image: text("image"),
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at").notNull(),
+  role: text("role"),
+  banned: boolean("banned"),
+  banReason: text("ban_reason"),
+  banExpires: timestamp("ban_expires"),
 });
 
 export const session = pgTable("session", {
@@ -26,6 +31,7 @@ export const session = pgTable("session", {
   userId: text("user_id")
     .notNull()
     .references(() => user.id),
+  impersonatedBy: text("impersonated_by"),
 });
 
 export const account = pgTable("account", {

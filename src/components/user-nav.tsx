@@ -12,7 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { Cog, Loader2, LogOut, User } from "lucide-react";
+import { Cog, Loader2, LogOut, User, UserCog } from "lucide-react";
 import { signOut } from "@/lib/auth/client";
 import type { Session } from "@/lib/auth/auth-type";
 import { toast } from "sonner";
@@ -45,8 +45,8 @@ export default function UserNav({ session }: UserNavProps) {
           Profile
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Cog />
-          Settings
+          <UserCog />
+          Console
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem

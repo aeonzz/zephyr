@@ -1,30 +1,55 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
+import * as motion from "motion/react-client";
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 10, filter: "blur(4px)" },
+  animate: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.3,
+      ease: "easeOut",
+    },
+  },
+};
+
+const stagger = {
+  animate: {
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
 
 export default function HomeHero() {
   return (
-    <div className="relative h-auto">
-      <div className="relative flex h-full items-center justify-center">
-        <div className="container py-24 lg:py-32">
-          <div className="mx-auto mt-5 max-w-2xl text-center">
-            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-              Experience Luxury at LuxeStay
-            </h1>
-          </div>
-          <div className="mx-auto mt-5 max-w-3xl text-center">
-            <p className="text-xl text-muted-foreground">
-              Indulge in world-class amenities, breathtaking views, and
-              unparalleled service. Your perfect getaway awaits at LuxeStay.
-            </p>
-          </div>
-          <div className="mt-8 flex justify-center gap-3">
-            <Button size="lg">Book Now</Button>
-            <Button size="lg" variant="outline">
-              Explore Rooms
-            </Button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <section className="relative flex h-auto items-center justify-center border-b">
+      <motion.div
+        className="container py-10"
+        initial="initial"
+        animate="animate"
+        variants={stagger}
+      >
+        <motion.div className="mt-5 max-w-2xl" variants={fadeInUp}>
+          <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+            Welcome to Zephyr
+          </h1>
+        </motion.div>
+        <motion.div className="mt-5 max-w-3xl" variants={fadeInUp}>
+          <p className="text-xl text-muted-foreground">
+            Discover the coziest, trendiest hoodies designed for comfort and
+            style. Find your perfect fit today!
+          </p>
+        </motion.div>
+        <motion.div className="mt-8 flex gap-3" variants={fadeInUp}>
+          <Button size="lg">Shop Now</Button>
+          <Button size="lg" variant="outline">
+            Browse Collections
+          </Button>
+        </motion.div>
+      </motion.div>
+    </section>
   );
 }

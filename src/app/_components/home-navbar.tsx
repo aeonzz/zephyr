@@ -62,9 +62,7 @@ export default function HomeNavbar() {
           <Link href="/">
             <div className="flex items-center gap-2">
               <ShoppingBag className="h-6 w-6 text-primary" />
-              <span className="text-xl font-bold text-primary">
-                Hoodie Haven
-              </span>
+              <span className="text-xl font-bold text-primary">Zephyr</span>
             </div>
           </Link>
           <NavigationMenu>
@@ -81,7 +79,7 @@ export default function HomeNavbar() {
                         >
                           <ShoppingBag className="h-6 w-6 text-primary" />
                           <div className="mb-2 mt-4 text-lg font-medium">
-                            Hoodie Haven
+                            Zephyr
                           </div>
                           <p className="text-sm leading-tight text-muted-foreground">
                             Explore the finest collection of hoodies for every
@@ -150,7 +148,7 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors duration-300 ease-out hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
             className
           )}
           {...props}

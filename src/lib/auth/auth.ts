@@ -4,14 +4,14 @@ import { db } from "../db";
 import * as schema from "../db/schema";
 import { sendResetPassword, sendVerificationEmail } from "@/actions/email";
 import { env } from "../../../env";
-import { oneTap } from "better-auth/plugins";
+import { admin, oneTap } from "better-auth/plugins";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
     schema: schema,
   }),
-  plugins: [oneTap()],
+  plugins: [oneTap(), admin()],
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,

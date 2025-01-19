@@ -1,7 +1,7 @@
 import { createAuthClient } from "better-auth/react";
 import { env } from "../../../env";
 import { toast } from "sonner";
-import { oneTapClient } from "better-auth/client/plugins";
+import { adminClient, oneTapClient } from "better-auth/client/plugins";
 
 export const authClient = createAuthClient({
   baseURL: env.NEXT_PUBLIC_APP_URL,
@@ -9,6 +9,7 @@ export const authClient = createAuthClient({
     oneTapClient({
       clientId: env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
     }),
+    adminClient(),
   ],
   fetchOptions: {
     onError(e) {
