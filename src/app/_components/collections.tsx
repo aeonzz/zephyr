@@ -1,6 +1,8 @@
 import React from "react";
 
-interface CollectionsProps extends React.ComponentProps<"section"> {}
+interface CollectionsProps extends React.ComponentProps<"section"> {
+  someProps?: string
+}
 
 export default function Collections({ ...props }: CollectionsProps) {
   return (

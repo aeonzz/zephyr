@@ -1,5 +1,5 @@
-import React from "react";
+import { redirect } from "next/navigation";
 
-export default function Console() {
-  return <div>Console</div>;
+export default function ConsolePage() {
+  return redirect("/console/shop");
 }

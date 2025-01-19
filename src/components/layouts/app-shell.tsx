@@ -1,13 +1,14 @@
 import React from "react";
-import HomeNavbar from "@/app/_components/home-navbar";
+import SiteHeader from "@/app/_components/site-header";
 
-export default function AppShell({
-  children,
-  ...props
-}: React.ComponentProps<"div">) {
+interface AppShellProps extends React.ComponentProps<"div"> {
+  someProps?: string;
+}
+
+export default function AppShell({ children, ...props }: AppShellProps) {
   return (
     <div {...props}>
-      <HomeNavbar />
+      <SiteHeader />
       {children}
     </div>
   );

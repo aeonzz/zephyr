@@ -23,7 +23,7 @@ const stagger = {
   },
 };
 
-export default function HomeHero() {
+export default function SiteHero() {
   return (
     <section className="relative flex h-auto items-center justify-center border-b">
       <motion.div
