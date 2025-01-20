@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { geist } from "@/lib/fonts";
 import { Toaster } from "@/components/ui/sonner";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 
 export const metadata: Metadata = {
@@ -23,7 +24,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <NuqsAdapter>{children}</NuqsAdapter>
           <Toaster richColors />
         </ThemeProvider>
       </body>

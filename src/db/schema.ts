@@ -1,9 +1,4 @@
-import {
-  pgTable,
-  text,
-  timestamp,
-  boolean,
-} from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -14,7 +9,9 @@ export const user = pgTable("user", {
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at").notNull(),
   role: text("role"),
-  banned: boolean("banned"),
+  banned: boolean("banned")
+    .notNull()
+    .$defaultFn(() => false),
   banReason: text("ban_reason"),
   banExpires: timestamp("ban_expires"),
 });
@@ -59,3 +56,5 @@ export const verification = pgTable("verification", {
   createdAt: timestamp("created_at"),
   updatedAt: timestamp("updated_at"),
 });
+
+export type User = typeof user.$inferSelect;

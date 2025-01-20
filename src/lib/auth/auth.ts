@@ -1,9 +1,9 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { db } from "../db";
-import * as schema from "../db/schema";
+import { db } from "../../db";
+import * as schema from "../../db/schema";
 import { sendResetPassword, sendVerificationEmail } from "@/actions/email";
-import { env } from "../../../env";
+import { env } from "../../env";
 import { admin, oneTap } from "better-auth/plugins";
 
 export const auth = betterAuth({

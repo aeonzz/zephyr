@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react";
 
-export default function ShopPage() {
-  return (
-    <div>ShopPage</div>
-  )
+export default async function ShopPage() {
+  return <div></div>;
 }

@@ -2,7 +2,7 @@
 
 import { EmailVerification } from "@/lib/email/templates/email-verfiication";
 import { ResetPasswordEmail } from "@/lib/email/templates/reset-password";
-import { env } from "../../env";
+import { env } from "../env";
 import { actionClient } from "@/lib/safe-actions";
 import { render } from "@react-email/components";
 import nodemailer from "nodemailer";

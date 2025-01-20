@@ -1,5 +1,5 @@
 import { createAuthClient } from "better-auth/react";
-import { env } from "../../../env";
+import { env } from "../../env";
 import { toast } from "sonner";
 import { adminClient, oneTapClient } from "better-auth/client/plugins";
 
