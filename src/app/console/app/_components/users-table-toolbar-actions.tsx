@@ -1,8 +1,9 @@
 "use client";
 
+import React from "react";
 import { type User } from "@/db/schema";
 import { type Table } from "@tanstack/react-table";
-import { Download } from "lucide-react";
+import { Download, Loader2 } from "lucide-react";
 
 import { exportTableToCSV } from "@/lib/export";
 import { Button } from "@/components/ui/button";
@@ -14,6 +15,7 @@ interface UsersTableToolbarActionsProps {
 export function UsersTableToolbarActions({
   table,
 }: UsersTableToolbarActionsProps) {
+  const [isPending, startTransition] = React.useTransition();
   return (
     <div className="flex items-center gap-2">
       {/* {table.getFilteredSelectedRowModel().rows.length > 0 ? (
@@ -27,15 +29,22 @@ export function UsersTableToolbarActions({
       <Button
         variant="outline"
         size="sm"
-        onClick={() =>
-          exportTableToCSV(table, {
-            filename: "tasks",
-            excludeColumns: ["select", "actions"],
-          })
-        }
+        disabled={isPending}
+        onClick={() => {
+          startTransition(() => {
+            exportTableToCSV(table, {
+              filename: "tasks",
+              excludeColumns: ["select", "actions"],
+            });
+          });
+        }}
         className="gap-2"
       >
-        <Download className="size-4" aria-hidden="true" />
+        {isPending ? (
+          <Loader2 className="animate-spin" />
+        ) : (
+          <Download className="size-4" aria-hidden="true" />
+        )}
         Export
       </Button>
       {/**

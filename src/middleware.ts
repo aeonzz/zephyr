@@ -25,7 +25,7 @@ export default async function authMiddleware(request: NextRequest) {
   if (session && protectedRoutes.includes(request.nextUrl.pathname)) {
     if (
       session.user.role === "admin" &&
-      request.nextUrl.pathname === "/console"
+      request.nextUrl.pathname.startsWith("/console")
     ) {
       return NextResponse.next();
     }
@@ -34,7 +34,7 @@ export default async function authMiddleware(request: NextRequest) {
 
   if (
     session?.user.role !== "admin" &&
-    request.nextUrl.pathname === "/console"
+    request.nextUrl.pathname.startsWith("/console")
   ) {
     return NextResponse.redirect(new URL("/", request.url));
   }
@@ -46,7 +46,7 @@ export const config = {
   matcher: [
     "/",
     "/login",
-    "/console",
+    "/console/:path",
     "/signup",
     "/forgot-password",
     "/reset-password",

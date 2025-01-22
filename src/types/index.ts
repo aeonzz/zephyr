@@ -52,11 +52,6 @@ export type Filter<TData> = Prettify<
   }
 >
 
-export interface DataTableRowAction<TData> {
-  row: Row<TData>
-  type: "update" | "delete"
-}
-
 export interface QueryBuilderOpts {
   where?: SQL
   orderBy?: SQL

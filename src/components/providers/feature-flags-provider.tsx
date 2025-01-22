@@ -74,11 +74,11 @@ export function FeatureFlagsProvider({ children }: FeatureFlagsProviderProps) {
                 value={flag.value}
                 className={cn(
                   "gap-2 whitespace-nowrap rounded-none px-3 text-xs data-[state=on]:bg-accent/70 data-[state=on]:hover:bg-accent/90",
-                  {
-                    "rounded-l-sm border-r-0": index === 0,
-                    "rounded-r-sm":
-                      index === dataTableConfig.featureFlags.length - 1,
-                  }
+                  // {
+                  //   "rounded-l-sm border-r-0": index === 0,
+                  //   "rounded-r-sm":
+                  //     index === dataTableConfig.featureFlags.length - 1,
+                  // }
                 )}
                 asChild
               >

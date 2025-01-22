@@ -24,6 +24,7 @@ export const {
   signIn,
   signOut,
   signUp,
+  admin,
   useSession,
   getSession,
   forgetPassword,

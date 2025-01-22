@@ -5,7 +5,6 @@ import { type User } from "@/db/schema";
 import type {
   DataTableAdvancedFilterField,
   DataTableFilterField,
-  DataTableRowAction,
 } from "@/types";
 
 import { useDataTable } from "@/hooks/use-data-table";
@@ -22,6 +21,8 @@ import { getColumns } from "./users-table-columns";
 import { UsersTableFloatingBar } from "./users-table-floating-bar";
 import { UsersTableToolbarActions } from "./users-table-toolbar-actions";
 import { useFeatureFlags } from "@/components/providers/feature-flags-provider";
+import { type UserTableRowAction } from "../_lib/utils";
+import BanUserDialog from "./ban-user-dialog";
 
 interface UsersTableProps {
   promises: Promise<
@@ -40,7 +41,7 @@ export function UsersTable({ promises }: UsersTableProps) {
     React.use(promises);
 
   const [rowAction, setRowAction] =
-    React.useState<DataTableRowAction<User> | null>(null);
+    React.useState<UserTableRowAction<User> | null>(null);
 
   const columns = React.useMemo(
     () => getColumns({ setRowAction }),
@@ -147,7 +148,6 @@ export function UsersTable({ promises }: UsersTableProps) {
   ];
 
   const enableAdvancedTable = featureFlags.includes("advancedTable");
-  const enableFloatingBar = featureFlags.includes("floatingBar");
 
   const { table } = useDataTable({
     data,
@@ -168,9 +168,7 @@ export function UsersTable({ promises }: UsersTableProps) {
     <>
       <DataTable
         table={table}
-        floatingBar={
-          enableFloatingBar ? <UsersTableFloatingBar table={table} /> : null
-        }
+        floatingBar={<UsersTableFloatingBar table={table} />}
       >
         {enableAdvancedTable ? (
           <DataTableAdvancedToolbar
@@ -186,6 +184,11 @@ export function UsersTable({ promises }: UsersTableProps) {
           </DataTableToolbar>
         )}
       </DataTable>
+      <BanUserDialog
+        open={rowAction?.type === "ban"}
+        onOpenChange={() => setRowAction(null)}
+        user={rowAction?.row.original ?? null}
+      />
     </>
   );
 }
