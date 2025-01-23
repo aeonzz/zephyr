@@ -2,22 +2,14 @@ import "server-only";
 
 import { db } from "@/db";
 import { user } from "@/db/schema";
-import {
-  and,
-  asc,
-  count,
-  desc,
-  eq,
-  gt,
-  gte,
-  ilike,
-  lte,
-} from "drizzle-orm";
+import { and, asc, count, desc, eq, gt, gte, ilike, lte } from "drizzle-orm";
 
 import { filterColumns } from "@/lib/filter-columns";
 import { unstable_cache } from "@/lib/unstable-cache";
 
 import { type GetUsersSchema } from "./validations";
+import { checkAdminServerSession } from "@/lib/auth/utils";
+import { userTableTags } from "./utils";
 
 export async function getUsers(input: GetUsersSchema) {
   return await unstable_cache(
@@ -105,7 +97,7 @@ export async function getUsers(input: GetUsersSchema) {
     [JSON.stringify(input)],
     {
       revalidate: 1,
-      tags: ["user"],
+      tags: [userTableTags[0]],
     }
   )();
 }
@@ -136,7 +128,7 @@ export async function getUserBannedCounts() {
         return {} as Record<string, number>;
       }
     },
-    ["user-banned-counts"],
+    [userTableTags[1]],
     {
       revalidate: 1,
     }
@@ -169,7 +161,7 @@ export async function getUserVerifiedCounts() {
         return {} as Record<string, number>;
       }
     },
-    ["user-verified-counts"],
+    [userTableTags[2]],
     {
       revalidate: 1,
     }

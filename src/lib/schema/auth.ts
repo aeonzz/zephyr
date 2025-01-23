@@ -51,7 +51,7 @@ export const loginSchema = z.object({
     .max(15, { message: "Cannot be more than 15 characters long" }),
 });
 
-export const banSchema = z.object({
+export const banUserSchema = z.object({
   banReason: z
     .string({ required_error: "Ban reason is required" })
     .min(1)
@@ -59,8 +59,15 @@ export const banSchema = z.object({
   duration: z.string({ required_error: "Ban duration is required" }),
 });
 
+export const deleteUserSchema = z.object({
+  verify: z.string({
+    required_error: "Verification is required",
+  }),
+});
+
 export type CreateUserSchema = z.infer<typeof createUserSchema>;
 export type ForgotPasswordSchema = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordSchema = z.infer<typeof resetPasswordSchema>;
 export type LoginSchema = z.infer<typeof loginSchema>;
-export type BanSchema = z.infer<typeof banSchema>;
+export type BanUserSchema = z.infer<typeof banUserSchema>;
+export type DeleteUserSchema = z.infer<typeof deleteUserSchema>;

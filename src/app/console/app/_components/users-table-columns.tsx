@@ -3,7 +3,7 @@
 import * as React from "react";
 import { type User } from "@/db/schema";
 import { type ColumnDef } from "@tanstack/react-table";
-import { Ban, CircleCheck, CircleX, Ellipsis, Pencil } from "lucide-react";
+import { Ban, CircleCheck, CircleX, Ellipsis, Pencil, Trash } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -160,13 +160,14 @@ export function getColumns({
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Ban Expires" />
       ),
-      cell: ({ row }) => {
+      cell: ({ cell }) => {
+        const date = cell.getValue()
+          ? format(cell.getValue() as Date, "PP p")
+          : undefined;
         return (
           <div className="flex space-x-2">
             <span className="max-w-[31.25rem] truncate font-medium">
-              {row.getValue("banExpires") ?? (
-                <span className="text-muted-foreground">---</span>
-              )}
+              {date ?? <span className="text-muted-foreground">---</span>}
             </span>
           </div>
         );
@@ -223,15 +224,20 @@ export function getColumns({
                 <Ellipsis className="size-4" aria-hidden="true" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-40">
-              <DropdownMenuItem
+            <DropdownMenuContent
+              align="end"
+              className="w-40"
+              onCloseAutoFocus={(e) => e.preventDefault()}
+            >
+              {/* <DropdownMenuItem
                 onSelect={() => setRowAction({ row, type: "update" })}
               >
                 <Pencil />
                 Edit
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
               <DropdownMenuItem
                 onSelect={() => setRowAction({ row, type: "ban" })}
+                disabled={row.original.banned === true}
               >
                 <Ban />
                 Ban
@@ -239,9 +245,10 @@ export function getColumns({
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onSelect={() => setRowAction({ row, type: "delete" })}
+                className="focus:bg-destructive"
               >
+                <Trash />
                 Delete
-                <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

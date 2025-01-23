@@ -18,24 +18,24 @@ import type {
   getUserVerifiedCounts,
 } from "../_lib/queries";
 import { getColumns } from "./users-table-columns";
-import { UsersTableFloatingBar } from "./users-table-floating-bar";
-import { UsersTableToolbarActions } from "./users-table-toolbar-actions";
+import { ProductsTableFloatingBar } from "./users-table-floating-bar";
+import { ProductsTableToolbarActions } from "./users-table-toolbar-actions";
 import { useFeatureFlags } from "@/components/providers/feature-flags-provider";
 import { type UserTableRowAction } from "../_lib/utils";
 import BanUserDialog from "./ban-user-dialog";
 import DeleteUserDialog from "./delete-user-dialog";
 
-interface UsersTableProps {
+interface ProductsTableProps {
   promises: Promise<
     [
-      Awaited<ReturnType<typeof getUsers>>,
+      Awaited<ReturnType<typeof getProducts>>,
       Awaited<ReturnType<typeof getUserBannedCounts>>,
       Awaited<ReturnType<typeof getUserVerifiedCounts>>,
     ]
   >;
 }
 
-export function UsersTable({ promises }: UsersTableProps) {
+export function ProductsTable({ promises }: ProductsTableProps) {
   const { featureFlags } = useFeatureFlags();
 
   const [{ data, pageCount }, getUserBannedCounts, getUserVerifiedCounts] =
@@ -169,7 +169,7 @@ export function UsersTable({ promises }: UsersTableProps) {
     <>
       <DataTable
         table={table}
-        floatingBar={<UsersTableFloatingBar table={table} />}
+        floatingBar={<ProductsTableFloatingBar table={table} />}
       >
         {enableAdvancedTable ? (
           <DataTableAdvancedToolbar
@@ -177,11 +177,11 @@ export function UsersTable({ promises }: UsersTableProps) {
             filterFields={advancedFilterFields}
             shallow={false}
           >
-            <UsersTableToolbarActions table={table} />
+            <ProductsTableToolbarActions table={table} />
           </DataTableAdvancedToolbar>
         ) : (
           <DataTableToolbar table={table} filterFields={filterFields}>
-            <UsersTableToolbarActions table={table} />
+            <ProductsTableToolbarActions table={table} />
           </DataTableToolbar>
         )}
       </DataTable>

@@ -11,7 +11,7 @@ import * as z from "zod";
 import { getFiltersStateParser, getSortingStateParser } from "@/lib/parsers";
 import { type User } from "@/db/schema";
 
-export const searchParamsCache = createSearchParamsCache({
+export const userSearchParamsCache = createSearchParamsCache({
   flags: parseAsArrayOf(z.enum(["advancedTable", "floatingBar"])).withDefault(
     []
   ),
@@ -49,7 +49,7 @@ export const searchParamsCache = createSearchParamsCache({
 //   })
 
 export type GetUsersSchema = Awaited<
-  ReturnType<typeof searchParamsCache.parse>
+  ReturnType<typeof userSearchParamsCache.parse>
 >;
 // export type CreateTaskSchema = z.infer<typeof createTaskSchema>
 // export type UpdateTaskSchema = z.infer<typeof updateTaskSchema>

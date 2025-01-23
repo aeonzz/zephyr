@@ -1,5 +1,6 @@
 "use client";
 
+import { revalidate } from "@/actions/utils";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -28,15 +29,14 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { type User } from "@/db/schema";
 import { admin } from "@/lib/auth/client";
-import { banSchema, BanSchema } from "@/lib/schema/auth";
+import { banUserSchema, BanUserSchema } from "@/lib/schema/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertDialogTitle } from "@radix-ui/react-alert-dialog";
 import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { E } from "node_modules/better-auth/dist/index-DwXoFQKD";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFormState } from "react-hook-form";
 import { toast } from "sonner";
+import { UserTableTags } from "../_lib/utils";
 
 type Duration = {
   label: string;
@@ -64,18 +64,19 @@ interface BanUserDialogProps
 }
 
 export default function BanUserDialog({ user, ...props }: BanUserDialogProps) {
-  const router = useRouter();
   const [isLoading, setIsLoading] = React.useState(false);
-  const form = useForm<BanSchema>({
-    resolver: zodResolver(banSchema),
+  const form = useForm<BanUserSchema>({
+    resolver: zodResolver(banUserSchema),
     defaultValues: {
       banReason: "",
       duration: undefined,
     },
   });
 
-  console.log(form.formState.errors);
-  async function onSubmit(values: BanSchema) {
+  const dirtyFields = useFormState({ control: form.control });
+  const isFieldsDirty = Object.keys(dirtyFields).length > 0;
+
+  async function onSubmit(values: BanUserSchema) {
     if (!user) return null;
     const { banReason, duration } = values;
     try {
@@ -93,8 +94,13 @@ export default function BanUserDialog({ user, ...props }: BanUserDialogProps) {
             setIsLoading(false);
             toast.error(ctx.error.message);
           },
-          onSuccess: () => {
-            router.refresh();
+          onSuccess: async () => {
+            await revalidate<UserTableTags>([
+              "users",
+              "user-banned-counts",
+              "user-verified-counts",
+            ]);
+            props.onOpenChange?.(false);
             toast.success("User banned successfully");
           },
         },
@@ -106,6 +112,8 @@ export default function BanUserDialog({ user, ...props }: BanUserDialogProps) {
       return toast.error("Something went wrong. Please try again later.");
     }
   }
+
+  if (user?.banned) return null;
 
   return (
     <AlertDialog {...props}>
@@ -178,7 +186,11 @@ export default function BanUserDialog({ user, ...props }: BanUserDialogProps) {
               >
                 Cancel
               </Button>
-              <Button type="submit" variant="destructive" disabled={isLoading}>
+              <Button
+                type="submit"
+                variant="destructive"
+                disabled={isLoading || !isFieldsDirty}
+              >
                 {isLoading && <Loader2 className="animate-spin" />}
                 Ban
               </Button>

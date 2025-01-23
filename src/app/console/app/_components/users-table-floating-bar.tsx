@@ -1,7 +1,7 @@
 import * as React from "react";
 import { type User } from "@/db/schema";
 import { type Table } from "@tanstack/react-table";
-import { X } from "lucide-react";
+import { Download, Loader2, Trash2, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Portal } from "@/components/ui/portal";
@@ -12,6 +12,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Kbd } from "@/components/kbd";
+import { exportTableToCSV } from "@/lib/export";
 
 // import { deleteTasks, updateTasks } from "../_lib/actions";
 
@@ -22,10 +23,10 @@ interface UsersTableFloatingBarProps {
 export function UsersTableFloatingBar({ table }: UsersTableFloatingBarProps) {
   const rows = table.getFilteredSelectedRowModel().rows;
 
-  // const [isPending, startTransition] = React.useTransition();
-  // const [action, setAction] = React.useState<
-  //   "update-status" | "update-priority" | "export" | "delete"
-  // >();
+  const [isPending, startTransition] = React.useTransition();
+  const [action, setAction] = React.useState<
+    "update-status" | "update-priority" | "export" | "delete"
+  >();
 
   // Clear selection on Escape key press
   React.useEffect(() => {
@@ -69,8 +70,8 @@ export function UsersTableFloatingBar({ table }: UsersTableFloatingBarProps) {
               </Tooltip>
             </div>
             <Separator orientation="vertical" className="hidden h-5 sm:block" />
-            {/* <div className="flex items-center gap-1.5">
-              <Select
+            <div className="flex items-center gap-1.5">
+              {/* <Select
                 onValueChange={(value: Task["status"]) => {
                   setAction("update-status");
 
@@ -129,8 +130,8 @@ export function UsersTableFloatingBar({ table }: UsersTableFloatingBarProps) {
                     ))}
                   </SelectGroup>
                 </SelectContent>
-              </Select>
-              <Select
+              </Select> */}
+              {/* <Select
                 onValueChange={(value: Task["priority"]) => {
                   setAction("update-priority");
 
@@ -186,8 +187,8 @@ export function UsersTableFloatingBar({ table }: UsersTableFloatingBarProps) {
                     ))}
                   </SelectGroup>
                 </SelectContent>
-              </Select>
-              <Tooltip>
+              </Select> */}
+              {/* <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
                     variant="secondary"
@@ -206,7 +207,7 @@ export function UsersTableFloatingBar({ table }: UsersTableFloatingBarProps) {
                     disabled={isPending}
                   >
                     {isPending && action === "export" ? (
-                      <Loader
+                      <Loader2
                         className="size-3.5 animate-spin"
                         aria-hidden="true"
                       />
@@ -244,7 +245,7 @@ export function UsersTableFloatingBar({ table }: UsersTableFloatingBarProps) {
                     disabled={isPending}
                   >
                     {isPending && action === "delete" ? (
-                      <Loader
+                      <Loader2
                         className="size-3.5 animate-spin"
                         aria-hidden="true"
                       />
@@ -256,8 +257,8 @@ export function UsersTableFloatingBar({ table }: UsersTableFloatingBarProps) {
                 <TooltipContent className="border bg-accent font-semibold text-foreground dark:bg-zinc-900">
                   <p>Delete tasks</p>
                 </TooltipContent>
-              </Tooltip>
-            </div> */}
+              </Tooltip> */}
+            </div>
           </div>
         </div>
       </div>
