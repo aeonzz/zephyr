@@ -1,1 +1,0 @@
-ALTER TABLE "user" RENAME COLUMN "emailVerified" TO "email_verified";

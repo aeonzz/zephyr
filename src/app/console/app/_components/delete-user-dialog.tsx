@@ -72,6 +72,7 @@ export default function DeleteUserDialog({
             },
             onSuccess: () => {
               router.refresh();
+              onSuccess();
               props.onOpenChange?.(false);
               toast.success("User deleted successfully");
             },

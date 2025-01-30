@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { type User } from "@/db/schema";
+import { type Product } from "@/db/schema";
 import type {
   DataTableAdvancedFilterField,
   DataTableFilterField,
@@ -12,37 +12,25 @@ import { DataTable } from "@/components/data-table/data-table";
 import { DataTableAdvancedToolbar } from "@/components/data-table/data-table-advanced-toolbar";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 
-import type {
-  getUserBannedCounts,
-  getUsers,
-  getUserVerifiedCounts,
-} from "../_lib/queries";
-import { getColumns } from "./users-table-columns";
-import { ProductsTableFloatingBar } from "./users-table-floating-bar";
-import { ProductsTableToolbarActions } from "./users-table-toolbar-actions";
+import type { getProducts } from "../_lib/queries";
+import { getColumns } from "./products-table-columns";
+import { ProductsTableFloatingBar } from "./products-table-floating-bar";
+import { ProductsTableToolbarActions } from "./products-table-toolbar-actions";
 import { useFeatureFlags } from "@/components/providers/feature-flags-provider";
-import { type UserTableRowAction } from "../_lib/utils";
-import BanUserDialog from "./ban-user-dialog";
-import DeleteUserDialog from "./delete-user-dialog";
+import { type ProductsTableRowAction } from "../_lib/utils";
+import UpdateProductSheet from "./update-product-sheet";
 
 interface ProductsTableProps {
-  promises: Promise<
-    [
-      Awaited<ReturnType<typeof getProducts>>,
-      Awaited<ReturnType<typeof getUserBannedCounts>>,
-      Awaited<ReturnType<typeof getUserVerifiedCounts>>,
-    ]
-  >;
+  promises: Promise<[Awaited<ReturnType<typeof getProducts>>]>;
 }
 
 export function ProductsTable({ promises }: ProductsTableProps) {
   const { featureFlags } = useFeatureFlags();
 
-  const [{ data, pageCount }, getUserBannedCounts, getUserVerifiedCounts] =
-    React.use(promises);
+  const [{ data, pageCount }] = React.use(promises);
 
   const [rowAction, setRowAction] =
-    React.useState<UserTableRowAction<User> | null>(null);
+    React.useState<ProductsTableRowAction<Product> | null>(null);
 
   const columns = React.useMemo(
     () => getColumns({ setRowAction }),
@@ -60,43 +48,11 @@ export function ProductsTable({ promises }: ProductsTableProps) {
    * @prop {React.ReactNode} [icon] - An optional icon to display next to the label.
    * @prop {boolean} [withCount] - An optional boolean to display the count of the filter option.
    */
-  const filterFields: DataTableFilterField<User>[] = [
+  const filterFields: DataTableFilterField<Product>[] = [
     {
       id: "name",
       label: "Name",
       placeholder: "Filter names...",
-    },
-    {
-      id: "banned",
-      label: "Banned",
-      options: [
-        {
-          label: "Yes",
-          value: "true",
-          count: getUserBannedCounts["true"],
-        },
-        {
-          label: "No",
-          value: "false",
-          count: getUserBannedCounts["false"],
-        },
-      ],
-    },
-    {
-      id: "emailVerified",
-      label: "Verified",
-      options: [
-        {
-          label: "Verified",
-          value: "true",
-          count: getUserVerifiedCounts["true"],
-        },
-        {
-          label: "Unverified",
-          value: "false",
-          count: getUserVerifiedCounts["false"],
-        },
-      ],
     },
   ];
 
@@ -110,41 +66,11 @@ export function ProductsTable({ promises }: ProductsTableProps) {
    * 3. Used with DataTableAdvancedToolbar: Enables a more sophisticated filtering UI.
    * 4. Date and boolean types: Adds support for filtering by date ranges and boolean values.
    */
-  const advancedFilterFields: DataTableAdvancedFilterField<User>[] = [
-    {
-      id: "email",
-      label: "Email",
-      type: "text",
-    },
+  const advancedFilterFields: DataTableAdvancedFilterField<Product>[] = [
     {
       id: "name",
       label: "Name",
       type: "text",
-    },
-    {
-      id: "emailVerified",
-      label: "Email verified",
-      type: "boolean",
-    },
-    {
-      id: "banned",
-      label: "Banned",
-      type: "boolean",
-    },
-    {
-      id: "banReason",
-      label: "Ban reason",
-      type: "text",
-    },
-    {
-      id: "banExpires",
-      label: "Ban expires",
-      type: "date",
-    },
-    {
-      id: "createdAt",
-      label: "Created at",
-      type: "date",
     },
   ];
 
@@ -185,16 +111,10 @@ export function ProductsTable({ promises }: ProductsTableProps) {
           </DataTableToolbar>
         )}
       </DataTable>
-      <BanUserDialog
-        open={rowAction?.type === "ban"}
+      <UpdateProductSheet
+        product={rowAction?.row.original ?? null}
+        open={rowAction?.type === "update"}
         onOpenChange={() => setRowAction(null)}
-        user={rowAction?.row.original ?? null}
-      />
-      <DeleteUserDialog
-        open={rowAction?.type === "delete"}
-        onOpenChange={() => setRowAction(null)}
-        users={rowAction?.row.original ? [rowAction.row.original] : []}
-        onSuccess={() => rowAction?.row.toggleSelected(false)}
       />
     </>
   );

@@ -99,7 +99,7 @@ export function LoginForm({
           </AlertDescription>
         </Alert>
       )}
-      <Card className="w-full max-w-xs overflow-hidden border-none shadow-none md:shadow">
+      <Card className="w-full max-w-xs overflow-hidden border-none shadow-none">
         <CardContent className="p-0">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="px-1">

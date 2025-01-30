@@ -1,4 +1,16 @@
-import { pgTable, text, timestamp, boolean } from "drizzle-orm/pg-core";
+import { desc } from "drizzle-orm";
+import {
+  pgTable,
+  text,
+  timestamp,
+  boolean,
+  pgEnum,
+  numeric,
+  integer,
+} from "drizzle-orm/pg-core";
+
+export const categoryValues = ["Men", "Women", "Unisex", "Kids"] as const;
+export const categoryEnum = pgEnum("category", categoryValues);
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -60,9 +72,19 @@ export const verification = pgTable("verification", {
 export const product = pgTable("product", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
-  createdAt: timestamp("created_at"),
-  updatedAt: timestamp("updated_at"),
+  price: numeric("price").notNull(),
+  category: categoryEnum().notNull(),
+  color: text("color").array().notNull(),
+  image_url: text("image"),
+  description: text("description"),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
 });
+
+//table types
 
 export type User = typeof user.$inferSelect;
 export type Product = typeof product.$inferSelect;
+
+// enum types
+export type CategoryEnum = typeof categoryEnum;

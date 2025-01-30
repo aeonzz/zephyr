@@ -74,7 +74,7 @@ export function SignupForm({
       className={cn("flex w-full max-w-xs flex-col gap-6", className)}
       {...props}
     >
-      <Card className="overflow-hidden border-none shadow-none md:shadow">
+      <Card className="overflow-hidden border-none shadow-none">
         <CardContent className="p-0">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="px-1">

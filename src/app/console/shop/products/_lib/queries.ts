@@ -1,18 +1,18 @@
-import "server only";
-import { GetProductsSchema } from "./validations";
+import "server-only";
+import { addProductSchema, GetProductsSchema } from "./validations";
+import { v4 as uuidv4 } from "uuid";
 
 import { unstable_cache } from "next/cache";
-import { checkAdminServerSession } from "@/lib/auth/utils";
 import { filterColumns } from "@/lib/filter-columns";
 import { product } from "@/db/schema";
 import { and, asc, count, desc, gte, ilike, lte } from "drizzle-orm";
 import { db } from "@/db";
+import { authActionClient } from "@/lib/safe-actions";
 
-export async function getUsers(input: GetProductsSchema) {
+export async function getProducts(input: GetProductsSchema) {
   return await unstable_cache(
     async () => {
       try {
-        await checkAdminServerSession();
         const offset = (input.page - 1) * input.perPage;
         const fromDate = input.from ? new Date(input.from) : undefined;
         const toDate = input.to ? new Date(input.to) : undefined;
@@ -73,7 +73,8 @@ export async function getUsers(input: GetProductsSchema) {
     [JSON.stringify(input)],
     {
       revalidate: 1,
-      tags: ["user"],
+      tags: ["products"],
     }
   )();
 }
+

@@ -1,3 +1,5 @@
+CREATE TYPE "public"."category" AS ENUM('Men', 'Women', 'Unisex', 'Kids');--> statement-breakpoint
+CREATE TYPE "public"."color" AS ENUM('Black', 'White');--> statement-breakpoint
 CREATE TABLE "account" (
 	"id" text PRIMARY KEY NOT NULL,
 	"account_id" text NOT NULL,
@@ -14,6 +16,21 @@ CREATE TABLE "account" (
 	"updated_at" timestamp NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE "product" (
+	"id" text PRIMARY KEY NOT NULL,
+	"name" text NOT NULL,
+	"price" numeric NOT NULL,
+	"category" "category" NOT NULL,
+	"size" text NOT NULL,
+	"color" "color" NOT NULL,
+	"material" text NOT NULL,
+	"quantity" integer NOT NULL,
+	"image" text NOT NULL,
+	"description" text,
+	"created_at" timestamp,
+	"updated_at" timestamp
+);
+--> statement-breakpoint
 CREATE TABLE "session" (
 	"id" text PRIMARY KEY NOT NULL,
 	"expires_at" timestamp NOT NULL,
@@ -23,6 +40,7 @@ CREATE TABLE "session" (
 	"ip_address" text,
 	"user_agent" text,
 	"user_id" text NOT NULL,
+	"impersonated_by" text,
 	CONSTRAINT "session_token_unique" UNIQUE("token")
 );
 --> statement-breakpoint
@@ -34,6 +52,10 @@ CREATE TABLE "user" (
 	"image" text,
 	"created_at" timestamp NOT NULL,
 	"updated_at" timestamp NOT NULL,
+	"role" text,
+	"banned" boolean NOT NULL,
+	"ban_reason" text,
+	"ban_expires" timestamp,
 	CONSTRAINT "user_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
@@ -46,6 +68,5 @@ CREATE TABLE "verification" (
 	"updated_at" timestamp
 );
 --> statement-breakpoint
-DROP TABLE "users" CASCADE;--> statement-breakpoint
 ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "session" ADD CONSTRAINT "session_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;

@@ -1,1 +1,0 @@
-ALTER TABLE "user" ALTER COLUMN "banned" SET NOT NULL;
