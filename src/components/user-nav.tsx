@@ -12,7 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, LogOut, User, UserCog } from "lucide-react";
+import { Loader2, LogOut, ShoppingCart, User, UserCog } from "lucide-react";
 import { signOut } from "@/lib/auth/client";
 import type { Session } from "@/lib/auth/auth-type";
 import { toast } from "sonner";
@@ -44,6 +44,10 @@ export default function UserNav({ session }: UserNavProps) {
         <DropdownMenuItem>
           <User />
           Profile
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <ShoppingCart />
+          Cart
         </DropdownMenuItem>
         <Link href="/console/shop" prefetch>
           <DropdownMenuItem>
