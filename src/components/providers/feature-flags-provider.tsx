@@ -68,7 +68,7 @@ export function FeatureFlagsProvider({ children }: FeatureFlagsProviderProps) {
           onValueChange={(value: FeatureFlagValue[]) => setFeatureFlags(value)}
           className="w-fit gap-0"
         >
-          {dataTableConfig.featureFlags.map((flag, index) => (
+          {dataTableConfig.featureFlags.map((flag,) => (
             <Tooltip key={flag.value}>
               <ToggleGroupItem
                 value={flag.value}

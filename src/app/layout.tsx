@@ -5,7 +5,6 @@ import { Toaster } from "@/components/ui/sonner";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import QueryClientProvider from "@/components/providers/query-provider";
-import { getServerSession } from "@/lib/auth/utils";
 
 export const metadata: Metadata = {
   title: "Create Next App",

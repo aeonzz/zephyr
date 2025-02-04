@@ -5,7 +5,6 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Switch } from "./ui/switch";
 import { Label } from "./ui/label";
-import { th } from "motion/react-client";
 
 export function ThemeToggle() {
   const id = React.useId();

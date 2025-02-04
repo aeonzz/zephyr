@@ -1,14 +1,12 @@
 "use client";
 
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardFooter } from "@/components/ui/card";
 import { type Product } from "@/db/schema";
 import Image from "next/image";
 import React from "react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
@@ -16,6 +14,7 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus } from "lucide-react";
+import NumberFlow from "@number-flow/react";
 
 interface ProductCardProps {
   product: Product;
@@ -25,10 +24,11 @@ export default function ProductCard({ product }: ProductCardProps) {
   const [count, setCount] = React.useState(1);
   const [total, setTotal] = React.useState(0);
 
+
   React.useEffect(() => {
     const total = Number(product?.price) * count;
     setTotal(total);
-  }, [count]);
+  }, [count, product.price]);
 
   return (
     <React.Fragment>
@@ -38,8 +38,9 @@ export default function ProductCard({ product }: ProductCardProps) {
             <div className="flex flex-col items-center">
               <div className="relative h-[262px] w-full overflow-hidden">
                 <Image
-                  src="/placeholder.svg"
+                  src={product.image_url ?? "/placeholder.svg"}
                   objectFit="cover"
+                  priority
                   alt={product.name}
                   fill
                 />
@@ -64,8 +65,9 @@ export default function ProductCard({ product }: ProductCardProps) {
           </VisuallyHidden>
           <div className="relative h-[60vh] max-h-[780px] flex-1 overflow-hidden">
             <Image
-              src="/placeholder.svg"
+              src={product.image_url ?? "/placeholder.svg"}
               objectFit="cover"
+              priority
               alt={product.name}
               fill
             />
@@ -87,7 +89,15 @@ export default function ProductCard({ product }: ProductCardProps) {
               <div className="flex items-center justify-between">
                 <div className="inline-flex items-center gap-3">
                   <span className="text-xs text-muted-foreground">Total:</span>
-                  <h3 className="text-base tracking-tight">₱ {total}</h3>
+                  <div className="space-x-1 text-base tracking-tight">
+                    <span>₱</span>
+                    <NumberFlow
+                      willChange
+                      value={total}
+                      format={{ useGrouping: false }}
+                      aria-hidden
+                    />
+                  </div>
                 </div>
                 <div className="flex items-center">
                   <Button
@@ -99,7 +109,12 @@ export default function ProductCard({ product }: ProductCardProps) {
                     <Minus />
                   </Button>
                   <div className="grid size-9 place-items-center border-y">
-                    {count}
+                    <NumberFlow
+                      willChange
+                      value={count}
+                      format={{ useGrouping: false }}
+                      aria-hidden
+                    />
                   </div>
                   <Button
                     variant="outline"

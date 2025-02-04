@@ -7,14 +7,13 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
 import {
   updateProductSchema,
   UpdateProductSchemaWithPath,
   type UpdateProductSchema,
 } from "../_lib/validations";
-import { useForm, useFormState } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -74,7 +73,7 @@ export default function UpdateProductSheet({
     },
   });
 
-  const dirtyFields = useFormState({ control: form.control });
+  // const dirtyFields = useFormState({ control: form.control });
 
   async function onSubmit(values: UpdateProductSchema) {
     if (!product?.id) return;
@@ -96,6 +95,7 @@ export default function UpdateProductSheet({
       props.onOpenChange?.(false);
       toast("Product updated successfully!");
     } catch (error) {
+      console.error(error)
       toast.error("Something went wrong!");
     }
   }

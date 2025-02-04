@@ -1,13 +1,11 @@
 import "server-only";
-import { addProductSchema, GetProductsSchema } from "./validations";
-import { v4 as uuidv4 } from "uuid";
+import {  GetProductsSchema } from "./validations";
 
 import { unstable_cache } from "next/cache";
 import { filterColumns } from "@/lib/filter-columns";
 import { product } from "@/db/schema";
 import { and, asc, count, desc, gte, ilike, lte } from "drizzle-orm";
 import { db } from "@/db";
-import { authActionClient } from "@/lib/safe-actions";
 
 export async function getProducts(input: GetProductsSchema) {
   return await unstable_cache(

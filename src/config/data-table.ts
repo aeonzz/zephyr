@@ -1,4 +1,4 @@
-import { Pickaxe, SquareSquare } from "lucide-react"
+import { Pickaxe } from "lucide-react"
 
 export type DataTableConfig = typeof dataTableConfig
 

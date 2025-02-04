@@ -1,25 +1,34 @@
 "use server";
 
-import {
-  addProductSchemaWithPath,
-  updateProductSchemaWithPath,
-} from "@/app/console/shop/products/_lib/validations";
+import { updateProductSchemaWithPath } from "@/app/console/shop/products/_lib/validations";
 import { db } from "@/db";
-import { product } from "@/db/schema";
+import { categoryValues, product } from "@/db/schema";
 import { actionClient } from "@/lib/safe-actions";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { v4 as uuidv4 } from "uuid";
+import { z } from "zod";
 
 export const createProduct = actionClient
   .metadata({ actionName: "createProduct" })
-  .schema(addProductSchemaWithPath)
-  .action(async ({ parsedInput: { path, ...rest } }) => {
+  .schema(
+    z.object({
+      name: z.string(),
+      category: z.enum(categoryValues),
+      price: z.string(),
+      color: z.array(z.string()),
+      description: z.string().optional(),
+      imageUrl: z.array(z.string()),
+      path: z.string(),
+    })
+  )
+  .action(async ({ parsedInput: { path, imageUrl, ...rest } }) => {
     try {
       await db.insert(product).values({
         id: uuidv4(),
         createdAt: new Date(),
         updatedAt: new Date(),
+        image_url: imageUrl[0],
         ...rest,
       });
 

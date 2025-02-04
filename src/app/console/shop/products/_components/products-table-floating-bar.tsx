@@ -1,7 +1,7 @@
 import * as React from "react";
 import { type Product } from "@/db/schema";
 import { type Table } from "@tanstack/react-table";
-import { Download, Loader2, Trash2, X } from "lucide-react";
+import { X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Portal } from "@/components/ui/portal";
@@ -12,7 +12,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Kbd } from "@/components/kbd";
-import { exportTableToCSV } from "@/lib/export";
 
 interface ProductsTableFloatingBarProps {
   table: Table<Product>;
@@ -23,10 +22,10 @@ export function ProductsTableFloatingBar({
 }: ProductsTableFloatingBarProps) {
   const rows = table.getFilteredSelectedRowModel().rows;
 
-  const [isPending, startTransition] = React.useTransition();
-  const [action, setAction] = React.useState<
-    "update-status" | "update-priority" | "export" | "delete"
-  >();
+  // const [isPending, startTransition] = React.useTransition();
+  // const [action, setAction] = React.useState<
+  //   "update-status" | "update-priority" | "export" | "delete"
+  // >();
 
   // Clear selection on Escape key press
   React.useEffect(() => {

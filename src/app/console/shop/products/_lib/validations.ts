@@ -1,7 +1,5 @@
 import { categoryValues, Product } from "@/db/schema";
 import { getFiltersStateParser, getSortingStateParser } from "@/lib/parsers";
-import { min } from "drizzle-orm";
-import { col } from "motion/react-client";
 import {
   createSearchParamsCache,
   parseAsArrayOf,
@@ -42,6 +40,9 @@ export const addProductSchema = z.object({
     message: "You have to select at least one color.",
   }),
   description: z.string().optional(),
+  imageUrl: z.array(z.instanceof(File), {
+    required_error: "Image is required",
+  }),
 });
 
 export const addProductSchemaWithPath = addProductSchema.extend({

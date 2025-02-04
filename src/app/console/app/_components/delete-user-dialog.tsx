@@ -2,8 +2,6 @@
 
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -108,7 +106,7 @@ export default function DeleteUserDialog({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    To confirm, type "delete" in the box below
+                    To confirm, type &quot;delete&quot; in the box below
                   </FormLabel>
                   <FormControl>
                     <Input

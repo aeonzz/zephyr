@@ -1,4 +1,3 @@
-import { desc } from "drizzle-orm";
 import {
   pgTable,
   text,
@@ -6,7 +5,6 @@ import {
   boolean,
   pgEnum,
   numeric,
-  integer,
 } from "drizzle-orm/pg-core";
 
 export const categoryValues = ["Men", "Women", "Unisex", "Kids"] as const;

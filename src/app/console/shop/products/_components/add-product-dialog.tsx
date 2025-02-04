@@ -12,16 +12,11 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useForm, useFormState } from "react-hook-form";
-import {
-  addProductSchema,
-  AddProductSchemaWithPath,
-  type AddProductSchema,
-} from "../_lib/validations";
+import { addProductSchema, type AddProductSchema } from "../_lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -47,12 +42,13 @@ import {
 } from "@/components/ui/command";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
-import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import { createProduct } from "@/actions/product";
 import { useMutation } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import { colors } from "../_lib/config";
+import { FileUploader } from "@/components/file-uploader";
+import { useUploadFile } from "@/hooks/use-upload-file";
 
 export default function AddProductDialog() {
   const pathname = usePathname();
@@ -70,15 +66,25 @@ export default function AddProductDialog() {
     },
   });
 
+  const { onUpload, progresses, uploadedFiles, isUploading } = useUploadFile(
+    "imageUploader",
+    { defaultUploadedFiles: [] }
+  );
+
   const dirtyFields = useFormState({ control: form.control });
   const isFieldsDirty = Object.keys(dirtyFields).length > 0;
 
   async function onSubmit(values: AddProductSchema) {
-    const payload: AddProductSchemaWithPath = {
-      ...values,
-      path: pathname,
-    };
     try {
+      let currentFiles = uploadedFiles;
+
+      currentFiles = await onUpload(values.imageUrl);
+
+      const payload = {
+        ...values,
+        imageUrl: currentFiles.map((result) => result.url),
+        path: pathname,
+      };
       await mutateAsync(payload);
       setOpen(false);
       form.reset({
@@ -89,6 +95,7 @@ export default function AddProductDialog() {
       });
       toast("Product created successfully!");
     } catch (error) {
+      console.error(error)
       toast.error("Something went wrong!");
     }
   }
@@ -296,14 +303,39 @@ export default function AddProductDialog() {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="imageUrl"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Product image</FormLabel>
+                  <FormControl>
+                    <FileUploader
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      maxFiles={1}
+                      maxSize={4 * 1024 * 1024}
+                      progresses={progresses}
+                      disabled={isPending || isUploading}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <AlertDialogFooter>
               <DialogClose asChild>
-                <Button variant="outline" disabled={isPending}>
+                <Button variant="outline" disabled={isPending || isUploading}>
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type="submit" disabled={isPending || !isFieldsDirty}>
-                {isPending && <Loader2 className="animate-spin" />}
+              <Button
+                type="submit"
+                disabled={isPending || isUploading || !isFieldsDirty}
+              >
+                {(isPending || isUploading) && (
+                  <Loader2 className="animate-spin" />
+                )}
                 Create
               </Button>
             </AlertDialogFooter>

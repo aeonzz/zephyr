@@ -8,7 +8,6 @@ import { filterColumns } from "@/lib/filter-columns";
 import { unstable_cache } from "@/lib/unstable-cache";
 
 import { type GetUsersSchema } from "./validations";
-import { checkAdminServerSession } from "@/lib/auth/utils";
 import { userTableTags } from "./utils";
 
 export async function getUsers(input: GetUsersSchema) {

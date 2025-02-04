@@ -6,6 +6,14 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   typescript: { ignoreBuildErrors: true },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "utfs.io",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

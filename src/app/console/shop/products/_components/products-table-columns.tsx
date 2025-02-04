@@ -4,15 +4,11 @@ import * as React from "react";
 import { type Product } from "@/db/schema";
 import { type ColumnDef } from "@tanstack/react-table";
 import {
-  Ban,
-  CircleCheck,
-  CircleX,
   Ellipsis,
   Pencil,
   Trash,
 } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
@@ -21,17 +17,10 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
 import { type ProductsTableRowAction } from "../_lib/utils";
 
 interface GetColumnsProps {
@@ -160,7 +149,7 @@ export function getColumns({
     {
       id: "actions",
       cell: function Cell({ row }) {
-        const [isUpdatePending, startUpdateTransition] = React.useTransition();
+        // const [isUpdatePending, startUpdateTransition] = React.useTransition();
 
         return (
           <DropdownMenu>
